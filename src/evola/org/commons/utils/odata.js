@@ -1,4 +1,4 @@
-sap.ui.define(['evola/org/common/polyfills/Promise'], function() {
+sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
   'use strict';
 
   return {

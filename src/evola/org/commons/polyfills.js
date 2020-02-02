@@ -1,8 +1,8 @@
 sap.ui.define(
   [
-    'evola/org/common/polyfills/Date',
-    'evola/org/common/polyfills/Object',
-    'evola/org/common/polyfills/Promise'
+    'evola/org/commons/polyfills/Date',
+    'evola/org/commons/polyfills/Object',
+    'evola/org/commons/polyfills/Promise'
   ],
   function() {
     'use strict';

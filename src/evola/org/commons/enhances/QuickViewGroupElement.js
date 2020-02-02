@@ -4,7 +4,7 @@ sap.ui.define(['sap/m/QuickViewGroupElement', 'sap/m/Link'], function(QuickViewG
   var logger = jQuery.sap.log.getLogger('QuickViewGroupElement', jQuery.sap.log.Level.ERROR);
 
   var GroupElement = QuickViewGroupElement.extend(
-    'evola.org.common.enhances.QuickViewGroupElement',
+    'evola.org.commons.enhances.QuickViewGroupElement',
     {
       metadata: {
         events: {

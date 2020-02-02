@@ -2,7 +2,7 @@
   "welcomeFile": "index.html",
   "routes": [
     {
-      "path": "/resources/evola/org/common",
+      "path": "/resources/evola/org/commons",
       "target": {
         "type": "application",
         "name": "evolaorgcommon"

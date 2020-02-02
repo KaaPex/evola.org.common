@@ -1,26 +1,26 @@
 <core:FragmentDefinition xmlns="sap.m"
-                         xmlns:nn="evola.org.common.enhances"
+                         xmlns:nn="evola.org.commons.enhances"
                          xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
                          xmlns:core="sap.ui.core">
     <QuickView placement="Auto">
         <QuickViewPage header="{i18n>employee.quick.view.header}"
                        icon="sap-icon://employee"
-                       title="{adaptation>name} ({adaptation>pernr})"
+                       title="{/name} ({/pernr})"
                        description="{adaptation>plans}">
             <QuickViewGroup>
                 <nn:QuickViewGroupElement label="{i18n>employee.quick.view.department}"
-                                          value="{adaptation>orgehS}"
+                                          value="{/orgehS}"
                                           press="showPopover"
-                                          data:text="{adaptation>orgehL}"
+                                          data:text="{/orgehL}"
                                           type="pageLink"/>
             </QuickViewGroup>
             <QuickViewGroup heading="{i18n>employee.quick.view.contacts}">
                 <QuickViewGroupElement label="{i18n>employee.quick.view.email}"
-                                       value="{adaptation>email}"
+                                       value="{/email}"
                                        emailSubject=""
                                        type="email"/>
                 <QuickViewGroupElement label="{i18n>employee.quick.view.phone}"
-                                       value="{adaptation>phone}"
+                                       value="{/phone}"
                                        type="phone"/>
             </QuickViewGroup>
         </QuickViewPage>

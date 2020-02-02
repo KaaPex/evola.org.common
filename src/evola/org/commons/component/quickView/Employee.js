@@ -4,18 +4,23 @@ sap.ui.define(
     'sap/ui/model/json/JSONModel',
     'sap/ui/model/Filter',
     'sap/ui/model/FilterOperator',
-    'evola/org/common/utils/general'
+    'evola/org/commons/utils/general',
+    'evola/org/commons/utils/odata'
   ],
-  function(Controller, JSONModel, Filter, FO, GeneralUtils) {
+  function(Controller, JSONModel, Filter, FO, GeneralUtils, OData) {
     'use strict';
 
     // Constant for dialog initialisation
-    var DIALOG_CONTROLLER_NAME = 'evola.org.common.component.quickView.Employee';
-    var DIALOG_FRAGMENT_NAME = 'evola.org.common.component.quickView.Employee';
+    var DIALOG_CONTROLLER_NAME = 'evola.org.commons.component.quickView.Employee';
+    var DIALOG_FRAGMENT_NAME = 'evola.org.commons.component.quickView.Employee';
 
     var INIT_DATA = {};
 
     var logger = jQuery.sap.log.getLogger('EMPLOYEE_QUICK_VIEW', jQuery.sap.log.Level.DEBUG);
+    // var oResourceBundle = new sap.ui.model.resource.ResourceModel({
+    //   bundleName: 'evola.org.commons.messagebundle'
+    // });
+    var oResourceBundle = sap.ui.getCore().getLibraryResourceBundle('evola.org.commons');
 
     /**
      * Init callbacks for current dialog
@@ -65,7 +70,7 @@ sap.ui.define(
      */
     var CustomDialog = Controller.extend(DIALOG_CONTROLLER_NAME, {
       metadata: {
-        library: 'evola.org.common'
+        library: 'evola.org.commons'
       },
 
       /**
@@ -92,10 +97,17 @@ sap.ui.define(
         if (!oSettings.pernr) {
           throw new Error('Emploee id is not defined');
         }
-
+        // set parent
         this._owner = oSettings.owner;
-        this._allowToDestroy = oSettings.allowToDestroy || false;
+
+        // init model
         this._modelName = oSettings.modelName;
+        var oModel = this._owner.getModel(this.modelName);
+        if (!oModel) {
+          throw new Error('Unknown model: ' + this.modelName);
+        }
+
+        this._allowToDestroy = oSettings.allowToDestroy || false;
         this._sPath = oSettings.sPath;
         this._pernr = oSettings.pernr;
         this._data = mapDataToLocal.call(this, oSettings.data) || INIT_DATA;
@@ -122,13 +134,35 @@ sap.ui.define(
         if (this._dialog.setBusyIndicatorDelay) {
           this._dialog.setBusyIndicatorDelay(0);
         }
+        this._dialog.setModel(oResourceBundle, 'i18n');
         // this._dialog.setModel(this._model);
 
         this._owner.getView().addDependent(this._dialog);
-        var sPath = this._owner.getModel(this.modelName).createKey('/Employers', {
+        var sPath = oModel.createKey('/Employers', {
           pernr: this.pernr
         });
-        this._dialog.bindElement({ path: this.sPath ? this.sPath : sPath, model: this.modelName });
+        // this._dialog.bindElement({ path: this.sPath ? this.sPath : sPath, model: this.modelName });
+
+        oModel.metadataLoaded().then(
+          function() {
+            this._dialog.setBusy(true);
+            OData.readData
+              .call(this._owner, this.modelName, this.sPath ? this.sPath : sPath)
+              .then(
+                function(employee) {
+                  this._dialog.setModel(new JSONModel(employee));
+                }.bind(this)
+              )
+              .catch(function(error) {
+                logger.error(error.message);
+              })
+              .finally(
+                function() {
+                  this._dialog.setBusy(false);
+                }.bind(this)
+              );
+          }.bind(this)
+        );
 
         initDialogCallbacks.call(this);
 

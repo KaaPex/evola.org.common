@@ -15,7 +15,7 @@
     "clean": "rm -rf dist",
     "build": "ui5 build --include-task=generateManifestBundle generateCachebusterInfo ",
     "build-for-deploy": "npm run build && npm run flatten && npm run clean-after-flatten",
-    "flatten": "cp -r dist/resources/evola/org/common/* dist && cp dist/resources/evola/org/common/.library dist && cp dist/resources/.Ui5RepositoryTextFiles dist",
+    "flatten": "cp -r dist/resources/evola/org/commons/* dist && cp dist/resources/evola/org/commons/.library dist && cp dist/resources/.Ui5RepositoryTextFiles dist",
     "clean-after-flatten": "rm -rf dist/resources dist/test-resources"
   },
   "license": "GPL",

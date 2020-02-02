@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <library xmlns="http://www.sap.com/sap.ui.library.xsd">
-    <name>evola.org.common</name>
+    <name>evola.org.commons</name>
     <vendor>SAP SE</vendor>
     <version>1.0.0</version>
     <copyright>${copyright}</copyright>
@@ -10,5 +10,8 @@
 		<dependency>
 			<libraryName>sap.ui.core</libraryName>
 		</dependency>
+		<dependency>
+            <libraryName>sap.m</libraryName>
+        </dependency>
 	</dependencies>
 </library>
