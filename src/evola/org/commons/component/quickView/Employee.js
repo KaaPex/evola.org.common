@@ -17,10 +17,9 @@ sap.ui.define(
     var INIT_DATA = {};
 
     var logger = jQuery.sap.log.getLogger('EMPLOYEE_QUICK_VIEW', jQuery.sap.log.Level.DEBUG);
-    // var oResourceBundle = new sap.ui.model.resource.ResourceModel({
-    //   bundleName: 'evola.org.commons.messagebundle'
-    // });
-    var oResourceBundle = sap.ui.getCore().getLibraryResourceBundle('evola.org.commons');
+    var oResourceModel = new sap.ui.model.resource.ResourceModel({
+        bundleName: 'evola.org.commons.messagebundle'
+      });
 
     /**
      * Init callbacks for current dialog
@@ -134,8 +133,7 @@ sap.ui.define(
         if (this._dialog.setBusyIndicatorDelay) {
           this._dialog.setBusyIndicatorDelay(0);
         }
-        this._dialog.setModel(oResourceBundle, 'i18n');
-        // this._dialog.setModel(this._model);
+        this._dialog.setModel(oResourceModel, 'i18n');
 
         this._owner.getView().addDependent(this._dialog);
         var sPath = oModel.createKey('/Employers', {
