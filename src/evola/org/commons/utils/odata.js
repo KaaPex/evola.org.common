@@ -36,7 +36,9 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
         oModel.create(sPath, oData, {
           // groupId: groupId,
           changeSetId: changeSetId,
-          success: resolve,
+          success: function(result) {
+            resolve(result && result.results ? result.results : result);
+          },
           error: reject
         });
       });
@@ -76,7 +78,9 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
         oModel.update(sPath, oData, {
           // groupId: groupId,
           changeSetId: changeSetId,
-          success: resolve,
+          success: function(result) {
+            resolve(result && result.results ? result.results : result);
+          },
           error: reject
         });
       });
@@ -110,7 +114,9 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
         oModel.remove(sPath, {
           // groupId: groupId,
           changeSetId: changeSetId,
-          success: resolve,
+          success: function(result) {
+            resolve(result && result.results ? result.results : result);
+          },
           error: reject
         });
       });
@@ -177,7 +183,9 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
             async: true,
             groupId: groupId,
             filters: aFilters,
-            success: resolve,
+            success: function(result) {
+              resolve(result && result.results ? result.results : result);
+            },
             error: reject
           });
         }.bind(this)
@@ -222,7 +230,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
                 async: true,
                 urlParameters: oParams,
                 success: function(result) {
-                  resolve(result.results ? result.results : result[fnName.replace('/', '')]);
+                  resolve(result && result.results ? result.results : result[fnName.replace('/', '')]);
                 },
                 error: reject,
                 batchGroupId: cBatchGroupId, // deprecated in future
@@ -246,7 +254,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
             urlParameters: params,
             success: function(result) {
               oDataModel.setUseBatch(originalUseBatch);
-              resolve(result.results ? result.results : result[fnName.replace('/', '')]);
+              resolve(result && result.results ? result.results : result[fnName.replace('/', '')]);
             },
             error: reject
           });

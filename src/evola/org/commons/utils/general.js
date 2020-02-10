@@ -112,6 +112,7 @@ sap.ui.define(['sap/ui/core/routing/History'], function(History) {
         }
       };
       removeKeys(object, aKeys && aKeys.length ? ['__metadata'].concat(aKeys) : ['__metadata']);
+      // check results property
       return object;
     },
 
