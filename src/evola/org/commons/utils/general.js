@@ -5,6 +5,31 @@ sap.ui.define(['sap/ui/core/routing/History'], function(History) {
 
   return {
     /**
+     * Convert Иванов Иван Иванович to Иванов И.И.
+     * @param {string} sName - the full name
+     * @return {string|null} - result of converting
+     */
+    convertFullNameToShort: function(sName) {
+      if (!sName) {
+        return '';
+      }
+
+      if(sName.indexOf('.') !== -1) {
+        return sName;
+      }
+
+      var aName = sName.split(" ") || [],
+        sResult = aName[0] || "";
+      if (aName[1]) {
+        sResult += " " + aName[1].substr(0, 1) + ".";
+      }
+      if (aName[2]) {
+        sResult += aName[2].substr(0, 1) + ".";
+      }
+      return sResult;
+    },
+
+    /**
      * Get Router from Component
      * @returns {sap.ui.core.routing.Router} - router object
      */
