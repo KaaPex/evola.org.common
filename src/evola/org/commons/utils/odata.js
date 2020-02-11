@@ -8,11 +8,12 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * @param {String} sPath - A string containing the path to the data which should be updated
      * @param {Boolean} bSubmit=false - call submitChanges instead
      * @param {Object} oData - entity
+     * @param {Object<string,string>} [mHeaders] A map of headers for this request
      * @param {String} [groupId] - ID of a request group
      * @param {String} [changeSetId] - ID of the ChangeSet that this request should belong to
      * @returns {Promise} - Promise object
      */
-    createEntity: function(sModelName, sPath, bSubmit, oData, groupId, changeSetId) {
+    createEntity: function(sModelName, sPath, bSubmit, oData, mHeaders, groupId, changeSetId) {
       if (!sModelName) {
         return Promise.reject(new ClientError('Fill parameters!'));
       }
@@ -36,6 +37,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
         oModel.create(sPath, oData, {
           // groupId: groupId,
           changeSetId: changeSetId,
+          headers: mHeaders,
           success: function(result) {
             resolve(result && result.results ? result.results : result);
           },
@@ -50,11 +52,12 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * @param {String} sPath - A string containing the path to the data which should be updated
      * @param {Boolean} bSubmit=false - call submitChanges instead
      * @param {Object} oData - entity
+     * @param {Object<string,string>} [mHeaders] A map of headers for this request
      * @param {String} [groupId] - ID of a request group
      * @param {String} [changeSetId] - ID of the ChangeSet that this request should belong to
      * @returns {Promise} - Promise object
      */
-    updateEntity: function(sModelName, sPath, bSubmit, oData, groupId, changeSetId) {
+    updateEntity: function(sModelName, sPath, bSubmit, oData, mHeaders, groupId, changeSetId) {
       if (!sModelName) {
         return Promise.reject(new ClientError('Fill parameters!'));
       }
@@ -78,6 +81,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
         oModel.update(sPath, oData, {
           // groupId: groupId,
           changeSetId: changeSetId,
+          headers: mHeaders,
           success: function(result) {
             resolve(result && result.results ? result.results : result);
           },
@@ -90,11 +94,12 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * Delete entity
      * @param {String} sModelName - oData Model name
      * @param {String} sPath - A string containing the path to the data which should be deleted
+     * @param {Object<string,string>} [mHeaders] A map of headers for this request
      * @param {String} [groupId] - ID of a request group
      * @param {String} [changeSetId] - ID of the ChangeSet that this request should belong to
      * @return {Promise} - Promise pending instance
      */
-    deleteEntity: function(sModelName, sPath, groupId, changeSetId) {
+    deleteEntity: function(sModelName, sPath, mHeaders, groupId, changeSetId) {
       if (!sModelName) {
         return Promise.reject(new ClientError('Fill parameters!'));
       }
@@ -114,6 +119,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
         oModel.remove(sPath, {
           // groupId: groupId,
           changeSetId: changeSetId,
+          headers: mHeaders,
           success: function(result) {
             resolve(result && result.results ? result.results : result);
           },
@@ -152,10 +158,11 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * @param {String} sPath - A string containing the path to the data which should be retrieved
      * @param {String} sParameters - A map containing the parameters that will be passed as query strings
      * @param {Array} aFilters - An array of filters to be included in the request UR
+     * @param {Object<string,string>} [mHeaders] A map of headers for this request
      * @param {String} [groupId] - ID of a request group
      * @return {Promise} - Promise pending instance
      */
-    readData: function(sModelName, sPath, sParameters, aFilters, groupId) {
+    readData: function(sModelName, sPath, sParameters, aFilters, mHeaders, groupId) {
       if (!sModelName) {
         return Promise.reject(new ClientError('Fill parameters!'));
       }
@@ -183,6 +190,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
             async: true,
             groupId: groupId,
             filters: aFilters,
+            headers: mHeaders,
             success: function(result) {
               resolve(result && result.results ? result.results : result);
             },
@@ -199,9 +207,10 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * @param {Object} params - parameters witch passes to function
      * @param {String} [method='GET'] - method to call function
      * @param {Boolean} [bUseBatch=false] - Whether the requests should be encapsulated in a batch request
+     * @param {Object<string,string>} [mHeaders] A map of headers for this request
      * @return {Promise} - Promise pending instance
      */
-    callFunction: function(sModelName, fnName, params, method, bUseBatch) {
+    callFunction: function(sModelName, fnName, params, method, bUseBatch, mHeaders) {
       if (!method) {
         method = 'GET';
       }
@@ -230,9 +239,12 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
                 async: true,
                 urlParameters: oParams,
                 success: function(result) {
-                  resolve(result && result.results ? result.results : result[fnName.replace('/', '')]);
+                  resolve(
+                    result && result.results ? result.results : result[fnName.replace('/', '')]
+                  );
                 },
                 error: reject,
+                headers: mHeaders,
                 batchGroupId: cBatchGroupId, // deprecated in future
                 groupId: cBatchGroupId,
                 changeSetId: key
@@ -251,6 +263,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
           oDataModel.callFunction(fnName, {
             method: method,
             async: true,
+            headers: mHeaders,
             urlParameters: params,
             success: function(result) {
               oDataModel.setUseBatch(originalUseBatch);
