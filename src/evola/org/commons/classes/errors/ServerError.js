@@ -24,6 +24,6 @@
     }
   });
   if (!window.ServerError) {
-    window.ClientError = ServerError;
+    window.ServerError = ServerError;
   }
 })();

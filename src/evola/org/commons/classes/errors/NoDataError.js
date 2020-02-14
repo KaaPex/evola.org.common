@@ -24,6 +24,6 @@
     }
   });
   if (!window.NoDataError) {
-    window.ClientError = NoDataError;
+    window.NoDataError = NoDataError;
   }
 })();
