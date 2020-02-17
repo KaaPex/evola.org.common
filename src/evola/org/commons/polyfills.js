@@ -3,7 +3,8 @@ sap.ui.define(
     'evola/org/commons/polyfills/Date',
     'evola/org/commons/polyfills/Object',
     'evola/org/commons/polyfills/Promise',
-    'evola/org/commons/polyfills/Array'
+    'evola/org/commons/polyfills/Array',
+    'evola/org/commons/polyfills/Fetch',
   ],
   function() {
     'use strict';
