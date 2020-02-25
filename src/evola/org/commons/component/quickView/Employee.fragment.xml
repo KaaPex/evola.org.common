@@ -8,6 +8,9 @@
                        title="{/name} ({/pernr})"
                        description="{adaptation>plans}">
             <QuickViewGroup>
+                <QuickViewGroupElement label="{i18n>employee.quick.view.position}"
+                                       value="{/plans}"
+                                       type="text"/>
                 <nn:QuickViewGroupElement label="{i18n>employee.quick.view.department}"
                                           value="{/orgehS}"
                                           press="showPopover"
