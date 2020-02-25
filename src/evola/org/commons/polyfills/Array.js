@@ -1,5 +1,22 @@
 sap.ui.define([], function() {
   'use strict';
+  if (!Array.prototype.move) {
+    Object.defineProperty(Array.prototype, 'move', {
+      value: function(from, to) {
+        if (from === to) {
+          return;
+        }
+        if (to >= this.length || to < 0) {
+          return;
+        }
+        if (from >= this.length || from < 0) {
+          return;
+        }
+        this.splice(to, 0, this.splice(from, 1)[0]);
+      }
+    });
+  }
+
   if (!Array.prototype.find) {
     Object.defineProperty(Array.prototype, 'find', {
       value: function(predicate) {
@@ -94,12 +111,12 @@ sap.ui.define([], function() {
 
   // Production steps of ECMA-262, Edition 6, 22.1.2.1
   if (!Array.from) {
-    Array.from = (function () {
+    Array.from = (function() {
       var toStr = Object.prototype.toString;
-      var isCallable = function (fn) {
+      var isCallable = function(fn) {
         return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
       };
-      var toInteger = function (value) {
+      var toInteger = function(value) {
         var number = Number(value);
         if (isNaN(number)) {
           return 0;
@@ -110,13 +127,13 @@ sap.ui.define([], function() {
         return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
       };
       var maxSafeInteger = Math.pow(2, 53) - 1;
-      var toLength = function (value) {
+      var toLength = function(value) {
         var len = toInteger(value);
         return Math.min(Math.max(len, 0), maxSafeInteger);
       };
 
       // The length property of the from method is 1.
-      return function from(arrayLike/*, mapFn, thisArg */) {
+      return function from(arrayLike /*, mapFn, thisArg */) {
         // 1. Let C be the this value.
         var C = this;
 
@@ -135,7 +152,9 @@ sap.ui.define([], function() {
           // 5. else
           // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
           if (!isCallable(mapFn)) {
-            throw new TypeError('Array.from: when provided, the second argument must be a function');
+            throw new TypeError(
+              'Array.from: when provided, the second argument must be a function'
+            );
           }
 
           // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
@@ -172,6 +191,6 @@ sap.ui.define([], function() {
         // 20. Return A.
         return A;
       };
-    }());
+    })();
   }
 });
