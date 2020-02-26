@@ -136,14 +136,13 @@ sap.ui.define(
         this._dialog.setModel(oResourceModel, 'i18n');
 
         this._owner.getView().addDependent(this._dialog);
-        var sPath = oModel.createKey('/Employers', {
-          pernr: this.pernr
-        });
-        // this._dialog.bindElement({ path: this.sPath ? this.sPath : sPath, model: this.modelName });
 
         oModel.metadataLoaded().then(
           function() {
             this._dialog.setBusy(true);
+            var sPath = oModel.createKey('/Employers', {
+              pernr: this.pernr
+            });
             OData.readData
               .call(this._owner, this.modelName, this.sPath ? this.sPath : sPath)
               .then(
