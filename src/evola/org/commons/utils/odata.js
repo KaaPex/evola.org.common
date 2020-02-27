@@ -4,16 +4,26 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
   return {
     /**
      * Create entity or several entities
-     * @param {String} sModelName - oData Model name
-     * @param {String} sPath - A string containing the path to the data which should be updated
-     * @param {Boolean} bSubmit=false - call submitChanges instead
-     * @param {Object} oData - entity
-     * @param {Object<string,string>} [mHeaders] A map of headers for this request
-     * @param {String} [groupId] - ID of a request group
-     * @param {String} [changeSetId] - ID of the ChangeSet that this request should belong to
+     * @param {string} sModelName - oData Model name
+     * @param {string} sPath - A string containing the path to the data which should be updated
+     * @param {boolean} bSubmit=false - call submitChanges instead
+     * @param {object} oData - entity
+     * @param {object<string,string>} [mHeaders] A map of headers for this request
+     * @param {string} [groupId] - ID of a request group
+     * @param {string} [changeSetId] - ID of the ChangeSet that this request should belong to
+     * @param {boolean} [bRefresh] - defines whether to update all bindings after submitting this change operation
      * @returns {Promise} - Promise object
      */
-    createEntity: function(sModelName, sPath, bSubmit, oData, mHeaders, groupId, changeSetId) {
+    createEntity: function(
+      sModelName,
+      sPath,
+      bSubmit,
+      oData,
+      mHeaders,
+      groupId,
+      changeSetId,
+      bRefresh
+    ) {
       if (!sModelName) {
         return Promise.reject(new ClientError('Fill parameters!'));
       }
@@ -38,6 +48,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
           // groupId: groupId,
           changeSetId: changeSetId,
           headers: mHeaders,
+          refreshAfterChange: bRefresh,
           success: function(result) {
             resolve(result && result.results ? result.results : result);
           },
@@ -55,9 +66,19 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * @param {Object<string,string>} [mHeaders] A map of headers for this request
      * @param {String} [groupId] - ID of a request group
      * @param {String} [changeSetId] - ID of the ChangeSet that this request should belong to
+     * @param {boolean} [bRefresh] - defines whether to update all bindings after submitting this change operation
      * @returns {Promise} - Promise object
      */
-    updateEntity: function(sModelName, sPath, bSubmit, oData, mHeaders, groupId, changeSetId) {
+    updateEntity: function(
+      sModelName,
+      sPath,
+      bSubmit,
+      oData,
+      mHeaders,
+      groupId,
+      changeSetId,
+      bRefresh
+    ) {
       if (!sModelName) {
         return Promise.reject(new ClientError('Fill parameters!'));
       }
@@ -82,6 +103,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
           // groupId: groupId,
           changeSetId: changeSetId,
           headers: mHeaders,
+          refreshAfterChange: bRefresh,
           success: function(result) {
             resolve(result && result.results ? result.results : result);
           },
@@ -97,9 +119,10 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * @param {Object<string,string>} [mHeaders] A map of headers for this request
      * @param {String} [groupId] - ID of a request group
      * @param {String} [changeSetId] - ID of the ChangeSet that this request should belong to
+     * @param {boolean} [bRefresh] - defines whether to update all bindings after submitting this change operation
      * @return {Promise} - Promise pending instance
      */
-    deleteEntity: function(sModelName, sPath, mHeaders, groupId, changeSetId) {
+    deleteEntity: function(sModelName, sPath, mHeaders, groupId, changeSetId, bRefresh) {
       if (!sModelName) {
         return Promise.reject(new ClientError('Fill parameters!'));
       }
@@ -120,6 +143,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
           // groupId: groupId,
           changeSetId: changeSetId,
           headers: mHeaders,
+          refreshAfterChange: bRefresh,
           success: function(result) {
             resolve(result && result.results ? result.results : result);
           },
