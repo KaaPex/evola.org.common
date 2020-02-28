@@ -232,9 +232,10 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * @param {String} [method='GET'] - method to call function
      * @param {Boolean} [bUseBatch=false] - Whether the requests should be encapsulated in a batch request
      * @param {Object<string,string>} [mHeaders] A map of headers for this request
+     * @param {boolean} [bRefresh] - defines whether to update all bindings after submitting this change operation
      * @return {Promise} - Promise pending instance
      */
-    callFunction: function(sModelName, fnName, params, method, bUseBatch, mHeaders) {
+    callFunction: function(sModelName, fnName, params, method, bUseBatch, mHeaders, bRefresh) {
       if (!method) {
         method = 'GET';
       }
@@ -261,6 +262,8 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
               oDataModel.callFunction(fnName, {
                 method: method,
                 async: true,
+                headers: mHeaders,
+                refreshAfterChange: bRefresh,
                 urlParameters: oParams,
                 success: function(result) {
                   resolve(
@@ -268,7 +271,6 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
                   );
                 },
                 error: reject,
-                headers: mHeaders,
                 batchGroupId: cBatchGroupId, // deprecated in future
                 groupId: cBatchGroupId,
                 changeSetId: key
@@ -288,6 +290,7 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
             method: method,
             async: true,
             headers: mHeaders,
+            refreshAfterChange: bRefresh,
             urlParameters: params,
             success: function(result) {
               oDataModel.setUseBatch(originalUseBatch);

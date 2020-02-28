@@ -30,7 +30,7 @@ sap.ui.define([], function() {
       );
     }
     if (Array.isArray(additionalItems) && additionalItems.length) {
-      items = Array.concat(items, additionalItems);
+      items = items.concat(additionalItems);
     }
     return new sap.m.VBox({
       items: items
@@ -46,14 +46,23 @@ sap.ui.define([], function() {
   /**
    * Confirm current operation
    * @param {sap.ui.commons.MessageBox.Icon} icon - dialog icon
-   * @param {String} sTitle - dialog title
-   * @param {String} sText - operation confirm text
-   * @param {Boolean} [bComment] - comment is required
-   * @param {String} [sPlaceholder] - text area placeholder
+   * @param {string} sTitle - dialog title
+   * @param {string} sText - operation confirm text
+   * @param {boolean} [bComment] - comment is required
+   * @param {string} [sPlaceholder] - text area placeholder
    * @param {Array} [additionalItems] - additional items for dialog
+   * @param {Array} [aActions] - additional items for dialog
    * @return {Promise} - Promise pending instance
    */
-  Operation.confirm = function(icon, sTitle, sText, bComment, sPlaceholder, additionalItems) {
+  Operation.confirm = function(
+    icon,
+    sTitle,
+    sText,
+    bComment,
+    sPlaceholder,
+    additionalItems,
+    aActions
+  ) {
     var comment = '';
     var callback = function(oEvent) {
       comment = oEvent.getParameter('value');
@@ -70,7 +79,10 @@ sap.ui.define([], function() {
           icon: icon || sap.m.MessageBox.Icon.QUESTION,
           styleClass: 'sapUiSizeCompact',
           title: sTitle,
-          actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+          actions:
+            aActions && aActions.length
+              ? aActions
+              : [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
           onClose: function(action) {
             resolve({ action: action, comment: comment });
           }
