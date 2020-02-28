@@ -309,3 +309,21 @@
 .sapContrast.sapSuiteUiCommonsMicroProcessFlowScroller:focus,.sapContrast .sapSuiteUiCommonsMicroProcessFlowScroller:focus {
     outline: none
 }
+
+.evolaContainer {
+    border: none;
+    background-color: transparent
+}
+
+.evolaContainer--hoverable:hover {
+    cursor: pointer;
+    background-color: #4094da30;
+    border-color: #4094da30;
+    text-shadow: none
+}
+
+.evolaContainer--hoverable:active {
+    background-color: rgba(64, 148, 218, 0.32);
+    border-color: rgba(64, 148, 218, 0.32);
+    text-shadow: none
+}

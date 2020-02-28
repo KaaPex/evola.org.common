@@ -24,10 +24,14 @@ sap.ui.define(
     sap.ui.getCore().initLibrary({
       name: 'evola.org.commons',
       version: '1.0.0',
-      dependencies: ["sap.ui.core", "sap.m"],
-      types: ["evola.org.commons.MicroProcessFlowRenderType"],
+      dependencies: ['sap.ui.core', 'sap.m'],
+      types: ['evola.org.commons.MicroProcessFlowRenderType'],
       interfaces: [],
-      controls: ['evola.org.commons.MicroProcessFlow', 'evola.org.commons.MicroProcessFlowItem'],
+      controls: [
+        'evola.org.commons.MicroProcessFlow',
+        'evola.org.commons.MicroProcessFlowItem',
+        'evola.org.commons.Container'
+      ],
       elements: []
     });
 
@@ -44,7 +48,7 @@ sap.ui.define(
        * The micro process flow nodes are wrapped inside the parent container.
        * @public
        */
-      Wrap: "Wrap",
+      Wrap: 'Wrap',
 
       /**
        * The micro process flow nodes are not wrapped inside the parent container.
@@ -52,7 +56,7 @@ sap.ui.define(
        * not displayed.
        * @public
        */
-      NoWrap: "NoWrap",
+      NoWrap: 'NoWrap',
 
       /**
        * Two scrolling icons are added to the parent container, which allows navigation
@@ -62,7 +66,7 @@ sap.ui.define(
        * consider using the <code>ScrollingWithResizer</code> render type instead.
        * @public
        */
-      Scrolling: "Scrolling",
+      Scrolling: 'Scrolling',
 
       /**
        * Two scrolling icons are added to the parent container, with the number indicators
@@ -72,7 +76,7 @@ sap.ui.define(
        * application's performance, consider using the <code>Scrolling</code> render type instead.
        * @public
        */
-      ScrollingWithResizer: "ScrollingWithResizer"
+      ScrollingWithResizer: 'ScrollingWithResizer'
     };
 
     /* eslint-disable */
