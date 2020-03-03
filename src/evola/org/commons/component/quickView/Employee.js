@@ -18,8 +18,8 @@ sap.ui.define(
 
     var logger = jQuery.sap.log.getLogger('EMPLOYEE_QUICK_VIEW', jQuery.sap.log.Level.DEBUG);
     var oResourceModel = new sap.ui.model.resource.ResourceModel({
-        bundleName: 'evola.org.commons.messagebundle'
-      });
+      bundleName: 'evola.org.commons.messagebundle'
+    });
 
     /**
      * Init callbacks for current dialog
@@ -144,7 +144,14 @@ sap.ui.define(
               pernr: this.pernr
             });
             OData.readData
-              .call(this._owner, this.modelName, this.sPath ? this.sPath : sPath)
+              .call(
+                this._owner,
+                this.modelName,
+                this.sPath ? this.sPath : sPath,
+                oSettings.parameters,
+                oSettings.filters,
+                oSettings.headers
+              )
               .then(
                 function(employee) {
                   this._dialog.setModel(new JSONModel(employee));
