@@ -156,22 +156,37 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
      * Submit Entities Changes
      * @param {String} sModelName - oData Model name
      * @param {String} groupId - ID of a request group
+     * @param {Boolean} [bUseBatch=true] - Whether the requests should be encapsulated in a batch request
      * @return {Promise} - Promise pending instance
      */
-    submitEntitiesChanges: function(sModelName, groupId) {
+    submitEntitiesChanges: function(sModelName, groupId, bUseBatch) {
       if (!sModelName) {
         return Promise.reject(new ClientError('Fill parameters!'));
       }
-      var oModel = this.getModel(sModelName);
-      if (!oModel) {
+      var oDataModel = this.getModel(sModelName);
+      if (!oDataModel) {
         return Promise.reject(new ClientError('Model not found'));
       }
 
+      var originalUseBatch = oDataModel.bUseBatch;
+      // always use batch mode
+      if (typeof bUseBatch === 'boolean') {
+        oDataModel.setUseBatch(bUseBatch);
+      } else {
+        oDataModel.setUseBatch(true);
+      }
+
       return new Promise(function(resolve, reject) {
-        oModel.submitChanges({
+        oDataModel.submitChanges({
           groupId: groupId,
-          success: resolve,
-          error: reject
+          success: function(result) {
+            oDataModel.setUseBatch(originalUseBatch);
+            resolve(result);
+          },
+          error: function(error) {
+            oDataModel.setUseBatch(originalUseBatch);
+            reject(error);
+          }
         });
       });
     },
@@ -216,7 +231,11 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
             filters: aFilters,
             headers: mHeaders,
             success: function(result) {
-              resolve(result && result.results ? result.results : result);
+              var data = result && result.results ? result.results : result;
+              if (result.__count) {
+                data.__count = result.__count;
+              }
+              resolve(data);
             },
             error: reject
           });
@@ -296,7 +315,10 @@ sap.ui.define(['evola/org/commons/polyfills/Promise'], function() {
               oDataModel.setUseBatch(originalUseBatch);
               resolve(result && result.results ? result.results : result[fnName.replace('/', '')]);
             },
-            error: reject
+            error: function(error) {
+              oDataModel.setUseBatch(originalUseBatch);
+              reject(error);
+            }
           });
         });
       }
