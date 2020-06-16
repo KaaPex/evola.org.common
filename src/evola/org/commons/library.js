@@ -30,7 +30,8 @@ sap.ui.define(
       controls: [
         'evola.org.commons.MicroProcessFlow',
         'evola.org.commons.MicroProcessFlowItem',
-        'evola.org.commons.Container'
+        'evola.org.commons.Container',
+        'evola.org.commons.RichTextEditor'
       ],
       elements: []
     });

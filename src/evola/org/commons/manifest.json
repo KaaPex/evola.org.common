@@ -34,7 +34,8 @@
         "controls": [
           "evola.org.commons.MicroProcessFlow",
           "evola.org.commons.MicroProcessFlowItem",
-          "evola.org.commons.Container"
+          "evola.org.commons.Container",
+          "evola.org.commons.RichTextEditor"
         ],
         "elements": [],
         "types": ["evola.org.commons.MicroProcessFlowRenderType"],

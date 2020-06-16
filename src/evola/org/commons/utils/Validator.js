@@ -1,6 +1,6 @@
 sap.ui.define(
   ['sap/ui/core/message/Message', 'sap/ui/core/MessageType', 'sap/ui/core/ValueState'],
-  function(Message, MessageType, ValueState) {
+  function (Message, MessageType, ValueState) {
     'use strict';
 
     /**
@@ -8,7 +8,7 @@ sap.ui.define(
      *
      * @class
      */
-    var Validator = function() {
+    var Validator = function () {
       this._isValid = true;
       this._isValidationPerformed = false;
       this._aPossibleAggregations = [
@@ -22,7 +22,7 @@ sap.ui.define(
         'subSections',
         '_grid',
         'cells',
-        '_page'
+        '_page',
       ];
       this._aValidateProperties = ['value', 'selectedKey', 'text']; // yes, I want to validate Select and Text controls too
     };
@@ -33,7 +33,7 @@ sap.ui.define(
      *
      * @returns {boolean}
      */
-    Validator.prototype.isValid = function() {
+    Validator.prototype.isValid = function () {
       return this._isValidationPerformed && this._isValid;
     };
 
@@ -44,12 +44,9 @@ sap.ui.define(
      * @param {(sap.ui.core.Control|sap.ui.layout.form.FormContainer|sap.ui.layout.form.FormElement)} oControl - The control or element to be validated.
      * @return {boolean} whether the oControl is valid or not.
      */
-    Validator.prototype.validate = function(oControl) {
+    Validator.prototype.validate = function (oControl) {
       this._isValid = true;
-      sap.ui
-        .getCore()
-        .getMessageManager()
-        .removeAllMessages();
+      sap.ui.getCore().getMessageManager().removeAllMessages();
       this._validate(oControl);
       return this.isValid();
     };
@@ -60,7 +57,7 @@ sap.ui.define(
      *
      * @param {(sap.ui.core.Control|sap.ui.layout.form.FormContainer|sap.ui.layout.form.FormElement)} oControl - The control or element to be validated.
      */
-    Validator.prototype.clearValueState = function(oControl) {
+    Validator.prototype.clearValueState = function (oControl) {
       if (!oControl) return;
 
       if (oControl.setValueState) oControl.setValueState(ValueState.None);
@@ -74,7 +71,7 @@ sap.ui.define(
      *
      * @param {(sap.ui.core.Control|sap.ui.layout.form.FormContainer|sap.ui.layout.form.FormElement)} oControl - The control or element to be validated.
      */
-    Validator.prototype._validate = function(oControl) {
+    Validator.prototype._validate = function (oControl) {
       var i,
         isValidatedControl = true,
         isValid = true;
@@ -135,7 +132,7 @@ sap.ui.define(
      * @param {(sap.ui.core.Control|sap.ui.layout.form.FormContainer|sap.ui.layout.form.FormElement)} oControl - The control or element to be validated.
      * @return {bool} this._isValid - If the property is valid
      */
-    Validator.prototype._validateRequired = function(oControl) {
+    Validator.prototype._validateRequired = function (oControl) {
       // check control for any properties worth validating
       var isValid = true;
 
@@ -174,7 +171,7 @@ sap.ui.define(
      * @param {int} i - The index of the property
      * @return {bool} this._isValid - If the property is valid
      */
-    Validator.prototype._validateConstraint = function(oControl, i) {
+    Validator.prototype._validateConstraint = function (oControl, i) {
       var isValid = true;
 
       try {
@@ -209,7 +206,7 @@ sap.ui.define(
      * @param {(sap.ui.core.Control|sap.ui.layout.form.FormContainer|sap.ui.layout.form.FormElement)} oControl - The control or element to be validated.
      * @param {string} sMessage - Customize the message
      */
-    Validator.prototype._addMessage = function(oControl, sMessage) {
+    Validator.prototype._addMessage = function (oControl, sMessage) {
       var sLabel,
         eMessageType = MessageType.Error;
 
@@ -219,12 +216,7 @@ sap.ui.define(
         case 'sap.m.CheckBox':
         case 'sap.m.Input':
         case 'sap.m.Select':
-          sLabel = oControl.getParent().getLabel
-            ? oControl
-                .getParent()
-                .getLabel()
-                .getText()
-            : '';
+          sLabel = oControl.getParent().getLabel ? oControl.getParent().getLabel().getText() : '';
           break;
       }
 
@@ -238,7 +230,7 @@ sap.ui.define(
           new Message({
             message: oControl.getValueStateText ? oControl.getValueStateText() : sMessage, // Get Message from ValueStateText if available
             type: eMessageType,
-            additionalText: sLabel // Get label from the form element
+            additionalText: sLabel, // Get label from the form element
           })
         );
     };
@@ -250,7 +242,7 @@ sap.ui.define(
      * @param {(sap.ui.core.Control|sap.ui.layout.form.FormContainer|sap.ui.layout.form.FormElement)} oControl - The control or element to be validated.
      * @return {int} i - The index of the property to validate
      */
-    Validator.prototype._hasType = function(oControl) {
+    Validator.prototype._hasType = function (oControl) {
       // check if a data type exists (which may have validation constraints)
       for (var i = 0; i < this._aValidateProperties.length; i += 1) {
         if (
@@ -269,7 +261,7 @@ sap.ui.define(
      * @param {sap.ui.core.ValueState} eValueState - The ValueState to be set
      * @param {string} sText - The ValueStateText to be set
      */
-    Validator.prototype._setValueState = function(oControl, eValueState, sText) {
+    Validator.prototype._setValueState = function (oControl, eValueState, sText) {
       oControl.setValueState(eValueState);
       if (oControl.getValueStateText && !oControl.getValueStateText())
         oControl.setValueStateText(sText);
@@ -282,7 +274,7 @@ sap.ui.define(
      * @param {(sap.ui.core.Control|sap.ui.layout.form.FormContainer|sap.ui.layout.form.FormElement)} oControl - The control or element to be validated.
      * @param {function} fFunction - The function to call recursively
      */
-    Validator.prototype._recursiveCall = function(oControl, fFunction) {
+    Validator.prototype._recursiveCall = function (oControl, fFunction) {
       for (var i = 0; i < this._aPossibleAggregations.length; i += 1) {
         var aControlAggregation = oControl.getAggregation(this._aPossibleAggregations[i]);
 
@@ -307,7 +299,7 @@ sap.ui.define(
      * @param {sap.ui.core.ValueState} eValueState
      * @return {sap.ui.core.MessageType} eMessageType
      */
-    Validator.prototype._convertValueStateToMessageType = function(eValueState) {
+    Validator.prototype._convertValueStateToMessageType = function (eValueState) {
       var eMessageType;
 
       switch (eValueState) {
