@@ -22,9 +22,10 @@ sap.ui.define(
         'subSections',
         '_grid',
         'cells',
-        '_page',
+        '_page'
       ];
-      this._aValidateProperties = ['value', 'selectedKey', 'text']; // yes, I want to validate Select and Text controls too
+      // this._aValidateProperties = ['value', 'selectedKey', 'text']; // yes, I want to validate Select and Text controls too
+      this._aValidateProperties = ['value', 'text']; // yes, I want to validate Select and Text controls too
     };
 
     /**
