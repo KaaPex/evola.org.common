@@ -116,6 +116,11 @@ sap.ui.define(
           var imageButton = new sap.m.Button({
             icon: 'sap-icon://picture',
             type: 'Transparent',
+            text: sap.ui.Device.system.desktop
+              ? ''
+              : this._oResourceBundle.getText(
+                  sap.ui.richtexteditor.EditorCommands['InsertImage'].bundleKey
+                ),
             tooltip: this._oResourceBundle.getText(
               sap.ui.richtexteditor.EditorCommands['InsertImage'].bundleKey
             ),
@@ -165,7 +170,7 @@ sap.ui.define(
               image_description: true,
               image_dimensions: true,
               image_uploadtab: false,
-              plugins: 'image',
+              plugins: config.plugins ? config.plugins.concat(',image') : 'image',
               file_picker_types: 'image',
             });
             // config.file_browser_callback = filePickerCallback;
