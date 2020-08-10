@@ -260,6 +260,7 @@ sap.ui.define(
         showHeader: false,
         horizontalScrolling: false,
         verticalScrolling: false,
+        placement: sap.m.PlacementType.Horizontal,
         content: [new sap.m.Text({ width: '14rem', text: sText })]
       })
         .addStyleClass('sapUiContentPadding')
