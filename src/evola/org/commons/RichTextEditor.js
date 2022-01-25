@@ -113,27 +113,28 @@ sap.ui.define(
             .getCore()
             .getLibraryResourceBundle('sap.ui.richtexteditor');
 
-          var imageButton = new sap.m.Button({
-            icon: 'sap-icon://picture',
-            type: 'Transparent',
-            text: sap.ui.Device.system.desktop
-              ? ''
-              : this._oResourceBundle.getText(
-                  sap.ui.richtexteditor.EditorCommands['InsertImage'].bundleKey
-                ),
-            tooltip: this._oResourceBundle.getText(
-              sap.ui.richtexteditor.EditorCommands['InsertImage'].bundleKey
-            ),
-            press: function () {
-              this.getNativeApi().execCommand('mceImage');
-            }.bind(this),
-          });
-
-          if (mSettings.customButtons && Array.isArray(mSettings.customButtons)) {
-            mSettings.customButtons.unshift(imageButton);
-          } else {
-            mSettings.customButtons = [imageButton];
-          }
+          //TODO Image logic. When picturies required need change logic
+          // var imageButton = new sap.m.Button({
+          //   icon: 'sap-icon://picture',
+          //   type: 'Transparent',
+          //   text: sap.ui.Device.system.desktop
+          //     ? ''
+          //     : this._oResourceBundle.getText(
+          //         sap.ui.richtexteditor.EditorCommands['InsertImage'].bundleKey
+          //       ),
+          //   tooltip: this._oResourceBundle.getText(
+          //     sap.ui.richtexteditor.EditorCommands['InsertImage'].bundleKey
+          //   ),
+          //   press: function () {
+          //     this.getNativeApi().execCommand('mceImage');
+          //   }.bind(this),
+          // });
+          //
+          // if (mSettings.customButtons && Array.isArray(mSettings.customButtons)) {
+          //   mSettings.customButtons.unshift(imageButton);
+          // } else {
+          //   mSettings.customButtons = [imageButton];
+          // }
         }
 
         RTE.call(this, sId, mSettings, oScope);
